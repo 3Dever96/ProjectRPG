@@ -1,0 +1,17 @@
+{
+    "name": "ProjectRPG.Managers",
+    "rootNamespace": "ProjectRPG.Managers",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:5dbb1fb81f32e3e4ca0ae92695661546"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

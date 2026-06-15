@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SCN_Init.unity
+    guid: a513b8ff8d9d08c4abf4e3c0f4a5a751
+  - enabled: 1
+    path: Assets/Scenes/SCN_TestPlay.unity
+    guid: 69bf5db2a54578f4195aaa12795615b6
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

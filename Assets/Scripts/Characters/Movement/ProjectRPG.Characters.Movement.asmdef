@@ -1,0 +1,17 @@
+{
+    "name": "ProjectRPG.Characters.Movement",
+    "rootNamespace": "ProjectRPG.Characters.Movement",
+    "references": [
+        "GUID:d26e4eee7bb132a4c8ffb1fd984be17d",
+        "GUID:9f7a2fb6a0ffc8243b361207f00279e0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
