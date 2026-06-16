@@ -13,6 +13,8 @@ namespace ProjectRPG.Characters.Movement
         protected virtual void Start()
         {
             Controller = GetComponent<CharacterController>();
+
+            LookDirection = transform.forward;
         }
 
         public void FaceDirection(Vector3 direction, float turnSpeed = 500f)
@@ -20,8 +22,11 @@ namespace ProjectRPG.Characters.Movement
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
         }
 
-        public void ApplyMovement(Vector3 velocity)
+        public void ApplyMovement(Vector3 direction)
         {
+            Vector3 velocity = CurrentSpeed * direction;
+            velocity.y = VerticalSpeed;
+
             Controller.Move(velocity * Time.deltaTime);
         }
     }

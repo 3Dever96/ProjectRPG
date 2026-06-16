@@ -1732,6 +1732,12 @@ MonoBehaviour:
   currentHP: 0
   currentMP: 0
   currentSP: 0
+  skills:
+  - Jump
+  - Sprint
+  - SP Regen
+  canRegenSp: 0
+  lockRegenSp: 0
 --- !u!4 &1577452392
 Transform:
   m_ObjectHideFlags: 0
@@ -1760,17 +1766,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c516158505e67914cb2cb60911bf7612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ProjectRPG.Characters.Movement::ProjectRPG.Characters.Movement.PlayerController
-  groundState:
-    baseSpeed: 3
-    baseAccel: 12
-    baseDecel: 64
-    baseFric: 6
-    turnAngle: 90
-    baseJumpSpeed: 9
-    stickForce: -5
-  airState:
-    gravity: -29.43
-    fallSpeed: -25
+  sprintState:
+    staminaRate: 25
+  baseRunSpeed: 3
+  baseAccel: 12
+  baseDecel: 64
+  baseFric: 6
+  turnAngle: 90
+  baseJumpSpeed: 8.5
+  stickForce: -5
+  gravity: -29.43
+  fallSpeed: -25
+  baseSprintSpeed: 6
 --- !u!143 &1577452394
 CharacterController:
   m_ObjectHideFlags: 0

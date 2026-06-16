@@ -1,17 +1,12 @@
 using ProjectRPG.Managers;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace ProjectRPG.Characters.Movement
 {
-    [System.Serializable]
     public class PlayerGroundState : PlayerGroundSuperstate
     {
-        [Header("Momentum System")]
-        [SerializeField] private float baseSpeed;
-        [SerializeField] private float baseAccel;
-        [SerializeField] private float baseDecel;
-        [SerializeField] private float baseFric;
-        [SerializeField] private float turnAngle;
+        private float moveSpeed;
 
         // True speed variables
         private float maxSpeed;
@@ -19,20 +14,19 @@ namespace ProjectRPG.Characters.Movement
         private float decel;
         private float fric;
 
-        private float moveSpeed;
-
-        [Header("Vertical Movement")]
-        [SerializeField] private float baseJumpSpeed;
-        [SerializeField] private float stickForce;
-
         private float jumpSpeed;
+
         private bool canJump;
+
+        Vector3 direction;
 
         public override void StartState(PlayerController player)
         {
-            player.VerticalSpeed = stickForce;
+            player.VerticalSpeed = player.StickForce;
 
             canJump = false;
+
+            player.LookDirection = player.transform.forward;
         }
 
         public override void UpdateState(PlayerController player)
@@ -40,17 +34,17 @@ namespace ProjectRPG.Characters.Movement
             // Set true speed variables
             if (player.Stats.stats.ContainsKey("AGI"))
             {
-                maxSpeed = baseSpeed + 3f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
-                accel = baseAccel + 12f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
-                decel = baseDecel + 64f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
-                fric = baseFric + 6f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
+                maxSpeed = player.BaseRunSpeed + 3f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
+                accel = player.BaseAccel + 12f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
+                decel = player.BaseDecel + 64f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
+                fric = player.BaseFric + 6f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
 
-                jumpSpeed = baseJumpSpeed + 5f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
+                jumpSpeed = player.BaseJumpSpeed + 5f * (player.Stats.stats["AGI"] / (player.Stats.stats["AGI"] + 150f));
             }
 
             // Get input direction
             Transform mainCamera = Camera.main.transform;
-            Vector3 direction = mainCamera.right * InputHub.Instance.Move.x + mainCamera.forward * InputHub.Instance.Move.y;
+            direction = mainCamera.right * InputHub.Instance.Move.x + mainCamera.forward * InputHub.Instance.Move.y;
             direction.y = 0f;
             direction = direction.normalized;
 
@@ -59,7 +53,7 @@ namespace ProjectRPG.Characters.Movement
 
             if (InputHub.Instance.Move != Vector2.zero)
             {
-                if (Vector3.Angle(direction, player.LookDirection) > turnAngle)
+                if (Vector3.Angle(direction, player.LookDirection) > player.TurnAngle)
                 {
                     if (player.CurrentSpeed > 0f)
                     {
@@ -97,26 +91,33 @@ namespace ProjectRPG.Characters.Movement
             player.FaceDirection(player.LookDirection);
 
             // Jumping
-            if (InputHub.Instance.Jump && canJump)
+            if (player.Stats.skills.Contains("Jump"))
             {
-                player.VerticalSpeed = jumpSpeed;
+                if (InputHub.Instance.Jump && canJump)
+                {
+                    player.VerticalSpeed = jumpSpeed;
+                }
+
+                if (!InputHub.Instance.Jump && !canJump)
+                {
+                    canJump = true;
+                }
             }
 
-            if (!InputHub.Instance.Jump && !canJump)
-            {
-                canJump = true;
-            }
-
-            // Set Velocity
-            Vector3 velocity = player.CurrentSpeed * player.LookDirection;
-            velocity.y = player.VerticalSpeed;
-
-            player.ApplyMovement(velocity);
+            player.ApplyMovement(player.LookDirection);
         }
 
         public override void ChangeState(PlayerController player)
         {
             base.ChangeState(player);
+
+            if (player.Stats.skills.Contains("Sprint"))
+            {
+                if (InputHub.Instance.Sprint && InputHub.Instance.Move != Vector2.zero && player.Stats.currentSP > 0f && !player.Stats.lockRegenSp && Vector3.Angle(direction,player.LookDirection) < player.TurnAngle)
+                {
+                    player.SetState(player.SprintState);
+                }
+            }
         }
 
         public override void ExitState(PlayerController player)

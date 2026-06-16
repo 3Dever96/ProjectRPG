@@ -3,12 +3,8 @@ using UnityEngine;
 
 namespace ProjectRPG.Characters.Movement
 {
-    [System.Serializable]
     public class PlayerAirState : PlayerAirSuperstate
     {
-        [SerializeField] private float gravity;
-        [SerializeField] private float fallSpeed;
-
         public override void StartState(PlayerController player)
         {
             
@@ -21,17 +17,14 @@ namespace ProjectRPG.Characters.Movement
                 player.VerticalSpeed = Mathf.Min(0f, player.VerticalSpeed);
             }
 
-            if (player.VerticalSpeed > fallSpeed)
+            if (player.VerticalSpeed > player.FallSpeed)
             {
-                player.VerticalSpeed += gravity * Time.deltaTime;
+                player.VerticalSpeed += player.Gravity * Time.deltaTime;
             }
 
             player.FaceDirection(player.LookDirection);
 
-            Vector3 velocity = player.CurrentSpeed * player.LookDirection;
-            velocity.y = player.VerticalSpeed;
-
-            player.ApplyMovement(velocity);
+            player.ApplyMovement(player.LookDirection);
         }
 
         public override void ChangeState(PlayerController player)

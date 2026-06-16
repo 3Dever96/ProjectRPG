@@ -5,6 +5,11 @@ namespace ProjectRPG.Characters.Combat
 {
     public class PlayerStats : CharacterStats
     {
+        public List<string> skills = new List<string>();
+
+        public bool canRegenSp;
+        public bool lockRegenSp;
+
         private void Awake()
         {
             stats.Add("HP", 144f);
@@ -23,6 +28,19 @@ namespace ProjectRPG.Characters.Combat
             currentHP = stats["HP"];
             currentMP = stats["MP"];
             currentSP = stats["SP"];
+        }
+
+        private void Update()
+        {
+            if ((canRegenSp && currentSP < stats["SP"]) || lockRegenSp)
+            {
+                currentSP = Mathf.Clamp(currentSP + 15f * Time.deltaTime, 0, stats["SP"]);
+
+                if (currentSP == stats["SP"])
+                {
+                    lockRegenSp = false;
+                }
+            }
         }
     }
 }
