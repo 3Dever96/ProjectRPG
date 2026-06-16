@@ -11,6 +11,7 @@ namespace ProjectRPG.Characters.Movement
         public PlayerGroundState GroundState { get { return groundState; } }
         public PlayerAirState AirState { get { return airState; } }
         public PlayerSprintState SprintState { get { return sprintState; } }
+        public PlayerCrouchState CrouchState {  get { return crouchState; } }
 
         public float BaseRunSpeed {  get { return baseRunSpeed; } }
         public float BaseAccel {  get { return baseAccel; } }
@@ -28,6 +29,7 @@ namespace ProjectRPG.Characters.Movement
         [SerializeField] private PlayerGroundState groundState = new PlayerGroundState();
         [SerializeField] private PlayerAirState airState = new PlayerAirState();
         [SerializeField] private PlayerSprintState sprintState = new PlayerSprintState();
+        [SerializeField] private PlayerCrouchState crouchState = new PlayerCrouchState();
 
         [Header("Momentum System")]
         [SerializeField] private float baseRunSpeed;

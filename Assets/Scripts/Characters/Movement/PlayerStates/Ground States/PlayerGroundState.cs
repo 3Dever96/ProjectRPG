@@ -1,5 +1,4 @@
 using ProjectRPG.Managers;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace ProjectRPG.Characters.Movement
@@ -117,6 +116,11 @@ namespace ProjectRPG.Characters.Movement
                 {
                     player.SetState(player.SprintState);
                 }
+            }
+
+            if (InputHub.Instance.Crouch)
+            {
+                player.SetState(player.CrouchState);
             }
         }
 
