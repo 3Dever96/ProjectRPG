@@ -24,7 +24,7 @@ namespace ProjectRPG.Characters.Movement
 
         public override void StartState(PlayerController player)
         {
-            
+            player.VerticalSpeed *= 0.5f;
         }
 
         public override void UpdateState(PlayerController player)

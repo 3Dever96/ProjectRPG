@@ -116,7 +116,7 @@ namespace ProjectRPG.Characters.Movement
 
             if (InputHub.Instance.Crouch)
             {
-                player.VerticalSpeed = -maxSpeed;
+                player.VerticalSpeed = -maxSpeed * 2f;
                 player.SetState(player.SubmergedState);
             }
         }
