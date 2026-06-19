@@ -12,6 +12,8 @@ namespace ProjectRPG.Characters.Movement
         public PlayerAirState AirState { get { return airState; } }
         public PlayerSprintState SprintState { get { return sprintState; } }
         public PlayerCrouchState CrouchState {  get { return crouchState; } }
+        public PlayerSurfaceState SurfaceState { get { return surfaceState; } }
+        public PlayerSubmergedState SubmergedState { get { return submergedState; } }
 
         public float BaseRunSpeed {  get { return baseRunSpeed; } }
         public float BaseAccel {  get { return baseAccel; } }
@@ -26,10 +28,15 @@ namespace ProjectRPG.Characters.Movement
 
         public float BaseSprintSpeed {  get { return baseSprintSpeed; } }
 
+        public float WaterLevel { get { return waterLevel; } }
+        public bool TouchingWater { get { return touchingWater; } }
+
         [SerializeField] private PlayerGroundState groundState = new PlayerGroundState();
         [SerializeField] private PlayerAirState airState = new PlayerAirState();
         [SerializeField] private PlayerSprintState sprintState = new PlayerSprintState();
         [SerializeField] private PlayerCrouchState crouchState = new PlayerCrouchState();
+        [SerializeField] private PlayerSurfaceState surfaceState = new PlayerSurfaceState();
+        [SerializeField] private PlayerSubmergedState submergedState = new PlayerSubmergedState();
 
         [Header("Momentum System")]
         [SerializeField] private float baseRunSpeed;
@@ -46,6 +53,10 @@ namespace ProjectRPG.Characters.Movement
 
         [Header("Sprint Movement")]
         [SerializeField] private float baseSprintSpeed;
+
+        [Header("Swimming Movement")]
+        [SerializeField] private float waterLevel;
+        [SerializeField] private bool touchingWater;
 
         protected override void Start()
         {
@@ -77,6 +88,23 @@ namespace ProjectRPG.Characters.Movement
             if (CurrentState != null)
             {
                 CurrentState.StartState(this);
+            }
+        }
+
+        protected virtual void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.layer == 4)
+            {
+                waterLevel = other.transform.position.y;
+                touchingWater = true;
+            }
+        }
+
+        protected virtual void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.layer == 4)
+            {
+                touchingWater = false;
             }
         }
     }

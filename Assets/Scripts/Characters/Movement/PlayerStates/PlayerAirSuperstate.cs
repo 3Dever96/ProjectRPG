@@ -20,6 +20,14 @@ namespace ProjectRPG.Characters.Movement
             {
                 player.SetState(player.GroundState);
             }
+
+            if (player.Stats.skills.Contains("Swim"))
+            {
+                if (player.TouchingWater && player.transform.position.y + (player.Controller.height / 2f) < player.WaterLevel)
+                {
+                    player.SetState(player.SubmergedState);
+                }
+            }
         }
 
         public override void ExitState(PlayerController player)
